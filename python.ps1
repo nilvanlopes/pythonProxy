@@ -115,6 +115,21 @@ function Set-GlobalPythonPath {
 }
 
 # --------------------------------------------------
+# Ativa venv do projeto atual
+# --------------------------------------------------
+function Activate-ProjectVenv {
+    $venvScript = Join-Path (Get-Location) ".venv\Scripts\Activate.ps1"
+    
+    if (Test-Path $venvScript) {
+        & $venvScript
+        Write-Host "Venv ativado: $(Get-Location)\.venv"
+        return $true
+    }
+    
+    return $false
+}
+
+# --------------------------------------------------
 # Comando especial: python change version
 # --------------------------------------------------
 if ($Args.Count -ge 2 -and $Args[0] -eq "change" -and $Args[1] -eq "version") {
@@ -122,6 +137,18 @@ if ($Args.Count -ge 2 -and $Args[0] -eq "change" -and $Args[1] -eq "version") {
     Set-GlobalPythonPath $pythonExe
     Write-Host "Python global atualizado."
     exit 0
+}
+
+# --------------------------------------------------
+# Comando especial: python activate venv
+# --------------------------------------------------
+if ($Args.Count -ge 2 -and $Args[0] -eq "activate" -and $Args[1] -eq "venv") {
+    if (Activate-ProjectVenv) {
+        exit 0
+    } else {
+        Write-Error "Nenhum venv encontrado no diretório atual (.venv\Scripts\Activate.ps1)."
+        exit 1
+    }
 }
 
 # --------------------------------------------------
