@@ -122,7 +122,7 @@ function Activate-ProjectVenv {
     
     if (Test-Path $venvScript) {
         & $venvScript
-        Write-Host "Venv ativado: $(Get-Location)\.venv"
+        Write-Host "Venv ativado: $(Get-Location)\.venv use deactivate para desativar"
         return $true
     }
     
