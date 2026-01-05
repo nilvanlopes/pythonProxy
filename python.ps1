@@ -97,6 +97,8 @@ function Select-UvPython {
 function Set-GlobalPythonPath {
     param([string]$PythonExe)
 
+    # Garante caminho absoluto
+    $PythonExe = [System.IO.Path]::GetFullPath($PythonExe)
     $PythonDir = Split-Path -Parent $PythonExe
     $userPath = [Environment]::GetEnvironmentVariable("PATH", "User") -split ";"
 
